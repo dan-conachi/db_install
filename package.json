@@ -1,0 +1,26 @@
+{
+  "name": "db_install",
+  "version": "1.0.0",
+  "description": "Databses installer",
+  "main": "bin/index.js",
+  "bin": {
+    "db_install": "bin/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dan-conachi/db_install.git"
+  },
+  "author": "gux",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dan-conachi/db_install/issues"
+  },
+  "homepage": "https://github.com/dan-conachi/db_install#readme",
+  "dependencies": {
+    "commander": "^2.20.0",
+    "glob": "^7.1.4"
+  }
+}
