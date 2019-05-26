@@ -7,24 +7,22 @@ const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
 async function main() {
-  const l = process.argv.slice(2);
-  console.log(`process.cwd() ${process.cwd()}`);
-
+  const l = recFindByExt(`${process.cwd()}`,'yaml');
   try {
     let doc = yaml.safeLoad(fs.readFileSync(l[0], 'utf8'));
     let ext_file_list = recFindByExt(`${process.cwd()}`,'sql')
 
-    if(ext_file_list.length > 0) {
-      fs.readFile(ext_file_list[0], 'utf8', function(err, contents) {
-        console.log(contents);
-      });
-    }
-
     let psql = `postgres://${encodeURIComponent(doc.db.user)}:${encodeURIComponent(doc.db.password)}@${encodeURIComponent(doc.db.host)}:${doc.db.port}/${encodeURIComponent(doc.db.database)}`;
-    console.log(`psql ${psql}`)
+    console.log('drop schema public')
     await exec(`psql ${psql} -c 'DROP SCHEMA "public" CASCADE'`)
     await exec(`psql ${psql} -c 'CREATE SCHEMA public'`)
     await exec(`psql ${psql} -c 'GRANT ALL ON SCHEMA public TO "${doc.db.user}" WITH GRANT OPTION'`)
+
+    if(ext_file_list.length > 0) {
+      for (let i = 0;i < ext_file_list.length;i++) {
+        await exec(`psql ${psql} -f '${ext_file_list[i]}'`)
+      }
+    }
     
   } catch (e) {
     console.log(e);
