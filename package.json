@@ -21,6 +21,6 @@
   "homepage": "https://github.com/dan-conachi/db_install#readme",
   "dependencies": {
     "commander": "^2.20.0",
-    "glob": "^7.1.4"
+    "js-yaml": "^3.13.1"
   }
 }
